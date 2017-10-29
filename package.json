@@ -1,0 +1,27 @@
+{
+  "name": "@slackmap/api",
+  "version": "0.0.1",
+  "description": "SlackMap API Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SlackMap/slackmap-api.git"
+  },
+  "keywords": [
+    "slackline",
+    "typescript",
+    "nodejs",
+    "tsoa",
+    "swagger",
+    "koajs"
+  ],
+  "author": "@myflowpl",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/SlackMap/slackmap-api/issues"
+  },
+  "homepage": "https://github.com/SlackMap/slackmap-api#readme"
+}
