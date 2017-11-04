@@ -1,0 +1,108 @@
+{
+	"basePath": "/api/v2",
+	"consumes": [
+		"application/json"
+	],
+	"definitions": {
+		"ConfigModel": {
+			"description": "UI config",
+			"properties": {
+				"domain": {
+					"type": "string",
+					"description": "domain this app is running",
+					"minLength": 5,
+					"maxLength": 10
+				},
+				"facebook_app_id": {
+					"type": "number",
+					"format": "double",
+					"maximum": 100
+				},
+				"facebook_app_id2": {
+					"type": "number",
+					"format": "double"
+				},
+				"facebook_scope": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"maxItems": 5
+				},
+				"sub": {
+					"$ref": "#/definitions/ConfigModel"
+				}
+			},
+			"required": [
+				"domain"
+			],
+			"type": "object"
+		}
+	},
+	"info": {
+		"title": "@slackmap/api",
+		"version": "0.0.1",
+		"description": "SlackMap API Server",
+		"license": {
+			"name": "GPL-3.0"
+		}
+	},
+	"paths": {
+		"/config": {
+			"get": {
+				"operationId": "GetConfig",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ConfigModel"
+						}
+					}
+				},
+				"description": "current application configuration object",
+				"tags": [
+					"slackmap"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "PostConfig",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ConfigModel"
+						}
+					}
+				},
+				"tags": [
+					"slackmap"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "data",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/ConfigModel"
+						}
+					}
+				]
+			}
+		}
+	},
+	"produces": [
+		"application/json"
+	],
+	"swagger": "2.0",
+	"securityDefinitions": {},
+	"host": "localhost:3000"
+}
