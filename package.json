@@ -4,7 +4,11 @@
   "description": "SlackMap API Server",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "start": "ts-node ./src/main.ts",
+    "tsoa:swagger": "tsoa swagger",
+    "tsoa:routes": "tsoa routes",
+    "test": "mocha --require ts-node/register ./src/**/*.spec.ts",
+    "test:one": "mocha --compilers ts:ts-node/register --watch --"
   },
   "repository": {
     "type": "git",
@@ -23,5 +27,22 @@
   "bugs": {
     "url": "https://github.com/SlackMap/slackmap-api/issues"
   },
-  "homepage": "https://github.com/SlackMap/slackmap-api#readme"
+  "homepage": "https://github.com/SlackMap/slackmap-api#readme",
+  "dependencies": {
+    "koa": "^2.3.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-mount": "^3.0.0",
+    "koa-router": "^7.2.1",
+    "koa-static": "^4.0.1",
+    "ts-node": "^3.3.0",
+    "tsoa": "^2.0.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/chai-http": "^3.0.3",
+    "@types/mocha": "^2.2.44",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "mocha": "^4.0.1"
+  }
 }
