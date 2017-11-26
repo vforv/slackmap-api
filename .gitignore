@@ -5,7 +5,7 @@ npm-debug.log*
 .history
 node_modules
 dist
-
+.~*
 # Runtime data
 pids
 *.pid
