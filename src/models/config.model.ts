@@ -1,15 +1,15 @@
 /**
  * UI config
- * 
+ *
  */
 export interface ConfigModel {
     /**
      * domain this app is running
-     * 
+     *
      * @minLength 5
      * @maxLength 10
      */
-    
+
     domain: string;
 
     /**
@@ -26,7 +26,7 @@ export interface ConfigModel {
      * @maxItems 5
      * @uniqueItems
      */
-    facebook_scope?: string[]
+    facebook_scope?: string[];
 
-    sub?: ConfigModel
+    sub?: ConfigModel;
 }

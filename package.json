@@ -4,7 +4,8 @@
   "description": "SlackMap API Server",
   "scripts": {
     "start": "ts-node -r tsconfig-paths/register ./src/main.ts",
-    "lint": "tslint",
+    "lint": "tslint -c tslint.json src/**/*.ts",
+    "lint:fix": "tslint -c tslint.json src/**/*.ts --fix",
     "tsoa:swagger": "tsoa swagger",
     "tsoa:routes": "tsoa routes",
     "test": "mocha -r ts-node/register -r tsconfig-paths/register ./src/**/*.spec.ts",

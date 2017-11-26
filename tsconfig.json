@@ -10,6 +10,7 @@
         "moduleResolution": "node",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
+        "noUnusedLocals": true,
         "paths":{
             "@controllers*": ["controllers/*"]
         },
