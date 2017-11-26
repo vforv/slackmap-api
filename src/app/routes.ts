@@ -1,5 +1,6 @@
 /* tslint:disable */
 import { Controller, ValidateParam, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
+import { iocContainer } from './ioc';
 import { ConfigController } from './../controllers/config.controller';
 
 const models: TsoaRoute.Models = {
@@ -29,9 +30,9 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new ConfigController();
+            const controller = iocContainer.get<ConfigController>(ConfigController);
 
-            const promise = controller.getConfig.apply(controller, validatedArgs);
+            const promise = controller.get.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/api/v2/config',
@@ -49,9 +50,9 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new ConfigController();
+            const controller = iocContainer.get<ConfigController>(ConfigController);
 
-            const promise = controller.postConfig.apply(controller, validatedArgs);
+            const promise = controller.post.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
 

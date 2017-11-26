@@ -1,3 +1,4 @@
-import { app } from "./app/app";
+import { App } from './app/app';
 
-app.listen(3000)
+const app = new App();
+app.app.listen(3000);

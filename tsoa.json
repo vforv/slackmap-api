@@ -9,6 +9,7 @@
       "basePath": "/api/v2",
       "entryFile": "./src/app/app.ts",
       "routesDir": "./src/app",
-      "middleware": "koa"
+      "middleware": "koa",
+      "iocModule": "./src/app/ioc"
     }
   }

@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "baseUrl": "src",
         "outDir": "./dist",
         "rootDir": "./src",
         "sourceMap": true,
@@ -8,7 +9,13 @@
         "target": "ES2017",
         "moduleResolution": "node",
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
+        "emitDecoratorMetadata": true,
+        "paths":{
+            "@controllers*": ["controllers/*"]
+        },
+        "rootDirs": [
+            "./src"
+        ]
     },
     "exclude": [
         "node_modules",

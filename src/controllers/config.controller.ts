@@ -1,33 +1,32 @@
-import {Route, Get, Post, Body, Tags} from "tsoa";
-import {ConfigModel} from "../models/config.model";
+import { Route, Get, Post, Body, Tags } from 'tsoa';
+import { ConfigModel } from '../models/config.model';
+import { injectable } from 'inversify';
 
-@Tags("slackmap")
-@Route("config")
+@Tags('slackmap')
+@Route('config')
+@injectable()
 export class ConfigController {
+  private config: ConfigModel = {
+    domain: 'https://slackmap.com',
+    facebook_app_id: 234234234,
+    facebook_scope: ['email', 'basic_info']
+  };
 
-    private config: ConfigModel = {
-        domain: "https://slackmap.com",
-        facebook_app_id: 234234234,
-        facebook_scope: ['email', 'basic_info'],
-    }
+  constructor() {}
 
-    constructor(){}
+  /**
+   *  current application configuration object
+   *
+   * @returns {Promise<ConfigModel>}
+   */
+  @Get()
+  public async get(): Promise<ConfigModel> {
+    return this.config;
+  }
 
-    /**
-     *  current application configuration object
-     *
-     * @returns {Promise<ConfigModel>}
-     */
-    @Get()
-    public async getConfig(): Promise<ConfigModel> {
-
-        return this.config;
-
-    }
-
-    @Post()
-    public postConfig(@Body() data: ConfigModel): ConfigModel {
-        this.config = data;
-        return this.config;
-    }
+  @Post()
+  public post(@Body() data: ConfigModel): ConfigModel {
+    this.config = data;
+    return this.config;
+  }
 }

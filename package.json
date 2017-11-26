@@ -2,38 +2,22 @@
   "name": "@slackmap/api",
   "version": "0.0.1",
   "description": "SlackMap API Server",
-  "main": "index.js",
   "scripts": {
-    "start": "ts-node ./src/main.ts",
+    "start": "ts-node -r tsconfig-paths/register ./src/main.ts",
+    "lint": "tslint",
     "tsoa:swagger": "tsoa swagger",
     "tsoa:routes": "tsoa routes",
-    "test": "mocha --require ts-node/register ./src/**/*.spec.ts",
-    "test:one": "mocha --compilers ts:ts-node/register --watch --"
+    "test": "mocha -r ts-node/register -r tsconfig-paths/register ./src/**/*.spec.ts",
+    "test:one": "mocha -r ts-node/register -r tsconfig-paths/register --watch --"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/SlackMap/slackmap-api.git"
-  },
-  "keywords": [
-    "slackline",
-    "typescript",
-    "nodejs",
-    "tsoa",
-    "swagger",
-    "koajs"
-  ],
-  "author": "@myflowpl",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/SlackMap/slackmap-api/issues"
-  },
-  "homepage": "https://github.com/SlackMap/slackmap-api#readme",
   "dependencies": {
+    "inversify": "^4.5.1",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
     "koa-mount": "^3.0.0",
     "koa-router": "^7.2.1",
     "koa-static": "^4.0.1",
+    "reflect-metadata": "^0.1.10",
     "ts-node": "^3.3.0",
     "tsoa": "^2.0.1"
   },
@@ -43,6 +27,20 @@
     "@types/mocha": "^2.2.44",
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
-    "mocha": "^4.0.1"
-  }
+    "mocha": "^4.0.1",
+    "tsconfig-paths": "^2.4.0",
+    "tslint": "^5.8.0"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SlackMap/slackmap-api.git"
+  },
+  "keywords": ["slackline", "typescript", "nodejs", "tsoa", "swagger", "koajs"],
+  "author": "@myflowpl",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/SlackMap/slackmap-api/issues"
+  },
+  "homepage": "https://github.com/SlackMap/slackmap-api#readme"
 }
