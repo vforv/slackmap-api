@@ -9,28 +9,17 @@
 			"properties": {
 				"domain": {
 					"type": "string",
-					"description": "domain this app is running",
-					"minLength": 5,
-					"maxLength": 10
+					"description": "domain this app is running"
 				},
 				"facebook_app_id": {
-					"type": "number",
-					"format": "double",
-					"maximum": 100
-				},
-				"facebook_app_id2": {
-					"type": "number",
-					"format": "double"
+					"type": "string",
+					"description": "facebook SlackMap id"
 				},
 				"facebook_scope": {
 					"type": "array",
 					"items": {
 						"type": "string"
-					},
-					"maxItems": 5
-				},
-				"sub": {
-					"$ref": "#/definitions/ConfigModel"
+					}
 				}
 			},
 			"required": [
@@ -50,7 +39,7 @@
 	"paths": {
 		"/config": {
 			"get": {
-				"operationId": "GetConfig",
+				"operationId": "Get",
 				"produces": [
 					"application/json"
 				],
@@ -66,11 +55,22 @@
 				"tags": [
 					"slackmap"
 				],
-				"security": [],
-				"parameters": []
+				"security": [
+					{
+						"api_token": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "api_token",
+						"required": true,
+						"type": "string"
+					}
+				]
 			},
 			"post": {
-				"operationId": "PostConfig",
+				"operationId": "Post",
 				"produces": [
 					"application/json"
 				],
@@ -85,7 +85,13 @@
 				"tags": [
 					"slackmap"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": [
+							"admin"
+						]
+					}
+				],
 				"parameters": [
 					{
 						"in": "body",
@@ -103,6 +109,13 @@
 		"application/json"
 	],
 	"swagger": "2.0",
-	"securityDefinitions": {},
+	"securityDefinitions": {
+		"api_token": {
+			"type": "apiKey",
+			"name": "api_token",
+			"in": "query",
+			"description": ""
+		}
+	},
 	"host": "localhost:3000"
 }

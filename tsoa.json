@@ -3,13 +3,22 @@
         "outputDirectory": "./src/docs",
         "entryFile": "./src/app/app.ts",
         "host": "localhost:3000",
-        "basePath": "/api/v2"
+        "basePath": "/api/v2",
+        "securityDefinitions": {
+          "api_token": {
+              "type": "apiKey",
+              "name": "api_token",
+              "in": "query",
+              "description": ""
+          }
+      }
     },
     "routes": {
       "basePath": "/api/v2",
       "entryFile": "./src/app/app.ts",
       "routesDir": "./src/app",
-      "middleware": "koa",
-      "iocModule": "./src/app/ioc"
+      "middleware": "express",
+      "iocModule": "./src/app/ioc",
+      "authenticationModule": "./src/app/auth.ts"
     }
   }

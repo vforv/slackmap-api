@@ -1,35 +1,37 @@
-import * as Koa from 'koa';
 import * as path from 'path';
-import * as serve from 'koa-static';
-import * as mount from 'koa-mount';
-import * as Router from 'koa-router';
-import * as bodyParser from 'koa-bodyparser';
+import * as bodyParser from 'body-parser';
+import * as express from 'express';
+import * as methodOverride from 'method-override';
 import { RegisterRoutes } from './routes';
+import { AppContainer, iocContainer } from 'app/ioc';
 
 // controllers
 import '../controllers/config.controller';
 
 export class App {
-    public app: Koa;
-    public router: Router;
-
+    public app: express.Express;
+    public ioc: AppContainer;
     constructor() {
 
+        this.ioc = iocContainer;
+        this.ioc.setup();
+
         // app instance
-        const app = this.app = new Koa();
+        const app: express.Express = this.app = express();
+
+
+        app.use('/api/v2/docs', express.static(path.resolve(__dirname, '../docs')));
+        app.use('/swagger.json', (req, res) => {
+            res.sendFile(path.resolve(__dirname, '../docs/swagger.json'));
+        });
 
         // body parser
-        app.use(bodyParser());
+        app.use(bodyParser.urlencoded({ extended: true }));
+        app.use(bodyParser.json());
+        app.use(methodOverride());
 
         // router
-        const router = this.router = Router();
-        RegisterRoutes(router);
-
-        app.use(router.routes());
-        app.use(router.allowedMethods());
-
-        // swagger docs
-        app.use(mount('/api/v2/docs', serve(path.resolve(__dirname, '../docs'))));
+        RegisterRoutes(app);
 
         return this;
     }

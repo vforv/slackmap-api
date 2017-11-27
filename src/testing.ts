@@ -1,4 +1,4 @@
-import { App } from '../app/app';
+import { App } from './app/app';
 import * as chaiLib from 'chai';
 const chaiHttp = require('chai-http');
 chaiLib.use(chaiHttp);

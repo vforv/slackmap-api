@@ -1,4 +1,4 @@
-import { app, expect, chai } from './testing';
+import { app, expect, chai } from '../testing';
 
 describe('ConfigController', () => {
   let agent;
