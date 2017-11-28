@@ -1,8 +1,8 @@
-import {App} from '../app/app';
-import {chai, expect} from '../testing';
+import {chai, expect} from '../../testing';
+import {App} from '../app';
 
 describe('ConfigController', () => {
-  let agent;
+  let agent: any;
   before(() => {
     const app: App = new App();
 

@@ -1,6 +1,6 @@
 module.exports = function(wallaby) {
   return {
-    files: ['src/**/*.ts', { pattern: 'src/**/*.spec.ts', ignore: true }],
+    files: ['src/**/*.ts', {pattern: 'src/**/*.spec.ts', ignore: true}, {pattern: 'src/rest/routes-template.ts', ignore: true}],
 
     tests: ['src/**/*.spec.ts'],
 
@@ -12,7 +12,7 @@ module.exports = function(wallaby) {
     // https://wallabyjs.com/docs/integration/overview.html#supported-testing-frameworks
     testFramework: 'mocha',
     compilers: {
-      'src/**/*.ts': wallaby.compilers.typeScript({ module: 'commonjs' })
+      'src/**/*.ts': wallaby.compilers.typeScript({module: 'commonjs'})
     }
   };
 };

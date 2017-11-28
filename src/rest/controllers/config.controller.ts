@@ -1,6 +1,6 @@
+import { ConfigGetInteractor } from './../../interactors/config-get.interactor';
 import { injectable } from 'inversify';
 import { Get, Route, Tags } from 'tsoa';
-import { ConfigGetInteractor } from '../../interactors/config-get.interactor';
 import { ConfigModel } from '../../models/config.model';
 
 @Tags('slackmap')

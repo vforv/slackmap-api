@@ -1,4 +1,4 @@
-import { App } from './app/app';
+import {App} from './rest/app';
 
 const app = new App();
-app.app.listen(3000);
+app.create().listen(3000);

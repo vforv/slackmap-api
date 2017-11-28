@@ -23,9 +23,9 @@ export class App {
         const app: express.Express = this.app = express();
 
 
-        app.use('/api/v2/docs', express.static(path.resolve(__dirname, '../docs')));
+        app.use('/api/v2/docs', express.static(path.resolve(__dirname, 'docs')));
         app.use('/swagger.json', (req, res) => {
-            res.sendFile(path.resolve(__dirname, '../docs/swagger.json'));
+            res.sendFile(path.resolve(__dirname, 'docs/swagger.json'));
         });
 
         // body parser
