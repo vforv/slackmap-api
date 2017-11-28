@@ -1,25 +1,63 @@
 /* tslint:disable */
-import { Controller, ValidateParam, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
-import { iocContainer } from './ioc';
-import { ConfigController } from './../controllers/config.controller';
-import { expressAuthentication } from './auth';
+import * as express from 'express';
+{{#if canImportByAlias}}
+  import { Controller, ValidateParam, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
+{{else}}
+  import { Controller, ValidateParam, FieldErrors, ValidateError, TsoaRoute } from '../../../src';
+{{/if}}
+{{#if iocModule}}
+import { interfaces } from 'inversify';
+{{/if}}
+{{#each controllers}}
+import { {{name}} } from '{{modulePath}}';
+{{/each}}
+
+{{#if authenticationModule}}
+export type Authentication = (request: any, name: any, scopes: any)=>Promise<any>;
+{{/if}}
+
+export interface Options {
+    app: express.Express;
+    {{#if iocModule}}
+    iocContainer: interfaces.Container;
+    {{/if}}
+    {{#if authenticationModule}}
+    authentication: Authentication;
+    {{/if}}
+}
 
 const models: TsoaRoute.Models = {
-    "ConfigModel": {
+    {{#each models}}
+    "{{@key}}": {
+        {{#if enums}}
+        "enums": {{{json enums}}},
+        {{/if}}
+        {{#if properties}}
         "properties": {
-            "domain": { "dataType": "string", "required": true },
-            "facebook_app_id": { "dataType": "string" },
-            "facebook_scope": { "dataType": "array", "array": { "dataType": "string" }, "validators": { "uniqueItems": {} } },
+            {{#each properties}}
+            "{{@key}}": {{{json this}}},
+            {{/each}}
         },
+        {{/if}}
+        {{#if additionalProperties}}
+        "additionalProperties": {{{json additionalProperties}}},
+        {{/if}}
     },
+    {{/each}}
 };
 
-export function RegisterRoutes(app: any) {
-    app.get('/api/v2/config',
-        authenticateMiddleware([{ "name": "api_token" }]),
-        function(request: any, response: any, next: any) {
+export function RegisterRoutes(options: Options) {
+    {{#each controllers}}
+    {{#each actions}}
+        options.app.{{method}}('{{../../basePath}}{{../path}}{{path}}',
+            {{#if security.length}}
+            authenticateMiddleware({{json security}}),
+            {{/if}}
+            function (request: any, response: any, next: any) {
             const args = {
-                token: { "in": "query", "name": "api_token", "required": true, "dataType": "string" },
+                {{#each parameters}}
+                    {{@key}}: {{{json this}}},
+                {{/each}}
             };
 
             let validatedArgs: any[] = [];
@@ -29,39 +67,26 @@ export function RegisterRoutes(app: any) {
                 return next(err);
             }
 
-            const controller = iocContainer.get<ConfigController>(ConfigController);
+            {{#if ../../iocModule}}
+            const controller = options.iocContainer.get<{{../name}}>({{../name}});
+            {{else}}
+            const controller = new {{../name}}();
+            {{/if}}
 
 
-            const promise = controller.get.apply(controller, validatedArgs);
+            const promise = controller.{{name}}.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
-    app.post('/api/v2/config',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin"] }]),
-        function(request: any, response: any, next: any) {
-            const args = {
-                data: { "in": "body", "name": "data", "required": true, "ref": "ConfigModel" },
-            };
+    {{/each}}
+    {{/each}}
 
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, request);
-            } catch (err) {
-                return next(err);
-            }
-
-            const controller = iocContainer.get<ConfigController>(ConfigController);
-
-
-            const promise = controller.post.apply(controller, validatedArgs);
-            promiseHandler(controller, promise, response, next);
-        });
-
+    {{#if useSecurity}}
     function authenticateMiddleware(security: TsoaRoute.Security[] = []) {
         return (request: any, response: any, next: any) => {
             let responded = 0;
             let success = false;
             for (const secMethod of security) {
-                expressAuthentication(request, secMethod.name, secMethod.scopes).then((user: any) => {
+                options.authentication(request, secMethod.name, secMethod.scopes).then((user: any) => {
                     // only need to respond once
                     if (!success) {
                         success = true;
@@ -70,16 +95,17 @@ export function RegisterRoutes(app: any) {
                         next();
                     }
                 })
-                    .catch((error: any) => {
-                        responded++;
-                        if (responded == security.length && !success) {
-                            response.status(401);
-                            next(error)
-                        }
-                    })
+                .catch((error: any) => {
+                    responded++;
+                    if (responded == security.length && !success) {
+                        response.status(401);
+                        next(error)
+                    }
+                })
             }
         }
     }
+    {{/if}}
 
     function promiseHandler(controllerObj: any, promise: any, response: any, next: any) {
         return Promise.resolve(promise)
@@ -105,7 +131,7 @@ export function RegisterRoutes(app: any) {
     }
 
     function getValidatedArgs(args: any, request: any): any[] {
-        const fieldErrors: FieldErrors = {};
+        const fieldErrors: FieldErrors  = {};
         const values = Object.keys(args).map((key) => {
             const name = args[key].name;
             switch (args[key].in) {

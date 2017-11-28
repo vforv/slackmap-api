@@ -1,20 +1,23 @@
-import * as path from 'path';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
+import { injectable } from 'inversify';
 import * as methodOverride from 'method-override';
+import * as path from 'path';
+import { expressAuthentication } from './auth';
+import { AppContainer, ioc } from './ioc';
 import { RegisterRoutes } from './routes';
-import { AppContainer, iocContainer } from 'app/ioc';
 
-// controllers
-import '../controllers/config.controller';
+import './controllers/config.controller';
 
+@injectable()
 export class App {
     public app: express.Express;
     public ioc: AppContainer;
-    constructor() {
 
-        this.ioc = iocContainer;
-        this.ioc.setup();
+    create(): express.Express {
+
+        this.ioc = ioc;
+        this.ioc.configure();
 
         // app instance
         const app: express.Express = this.app = express();
@@ -31,8 +34,12 @@ export class App {
         app.use(methodOverride());
 
         // router
-        RegisterRoutes(app);
+        RegisterRoutes({
+            app,
+            iocContainer: ioc,
+            authentication: expressAuthentication
+        });
 
-        return this;
+        return app;
     }
 }

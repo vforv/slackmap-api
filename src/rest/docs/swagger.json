@@ -55,53 +55,8 @@
 				"tags": [
 					"slackmap"
 				],
-				"security": [
-					{
-						"api_token": []
-					}
-				],
-				"parameters": [
-					{
-						"in": "query",
-						"name": "api_token",
-						"required": true,
-						"type": "string"
-					}
-				]
-			},
-			"post": {
-				"operationId": "Post",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"schema": {
-							"$ref": "#/definitions/ConfigModel"
-						}
-					}
-				},
-				"tags": [
-					"slackmap"
-				],
-				"security": [
-					{
-						"jwt": [
-							"admin"
-						]
-					}
-				],
-				"parameters": [
-					{
-						"in": "body",
-						"name": "data",
-						"required": true,
-						"schema": {
-							"$ref": "#/definitions/ConfigModel"
-						}
-					}
-				]
+				"security": [],
+				"parameters": []
 			}
 		}
 	},

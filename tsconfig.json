@@ -4,16 +4,13 @@
         "outDir": "./dist",
         "rootDir": "./src",
         "sourceMap": true,
-        "noImplicitAny": false,
+        "noImplicitAny": true,
         "module": "commonjs",
         "target": "ES2017",
         "moduleResolution": "node",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "noUnusedLocals": true,
-        "paths":{
-            "@controllers*": ["controllers/*"]
-        },
         "rootDirs": [
             "./src"
         ]

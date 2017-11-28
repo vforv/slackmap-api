@@ -1,11 +1,7 @@
-import * as jwt from 'jsonwebtoken';
 import * as express from 'express';
+import * as jwt from 'jsonwebtoken';
 
-export function expressAuthentication(
-  request: express.Request,
-  securityName: string,
-  scopes?: string[]
-): Promise<any> {
+export function expressAuthentication(request: express.Request, securityName: string, scopes?: string[]): Promise<any> {
   if (securityName === 'api_token') {
     let token;
     if (request.query && request.query.api_token) {
@@ -18,15 +14,12 @@ export function expressAuthentication(
         name: 'Ironman'
       });
     } else {
-      return Promise.reject({ error: 'auth error' });
+      return Promise.reject({error: 'auth error'});
     }
   }
 
   if (securityName === 'jwt') {
-    const token =
-      request.body.token ||
-      request.query.token ||
-      request.headers['x-access-token'];
+    const token = request.body.token || request.query.token || request.headers['x-access-token'];
 
     return new Promise((resolve, reject) => {
       if (!token) {

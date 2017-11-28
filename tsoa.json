@@ -1,7 +1,7 @@
 {
     "swagger": {
-        "outputDirectory": "./src/docs",
-        "entryFile": "./src/app/app.ts",
+        "outputDirectory": "./src/rest/docs",
+        "entryFile": "./src/rest/app.ts",
         "host": "localhost:3000",
         "basePath": "/api/v2",
         "securityDefinitions": {
@@ -15,10 +15,11 @@
     },
     "routes": {
       "basePath": "/api/v2",
-      "entryFile": "./src/app/app.ts",
-      "routesDir": "./src/app",
+      "entryFile": "./src/rest/app.ts",
+      "routesDir": "./src/rest",
       "middleware": "express",
-      "iocModule": "./src/app/ioc",
-      "authenticationModule": "./src/app/auth.ts"
+      "middlewareTemplate": "./src/rest/routes-template.ts",
+      "iocModule": "./src/rest/ioc.ts",
+      "authenticationModule": "./src/rest/auth.ts"
     }
   }
