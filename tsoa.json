@@ -19,7 +19,7 @@
       "routesDir": "./src/rest",
       "middleware": "express",
       "middlewareTemplate": "./src/rest/routes-template.ts",
-      "iocModule": "./src/rest/ioc.ts",
+      "iocModule": "./src/ioc.ts",
       "authenticationModule": "./src/rest/auth.ts"
     }
   }
