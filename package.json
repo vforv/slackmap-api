@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "SlackMap API Server",
   "scripts": {
-    "start": "ts-node -r tsconfig-paths/register ./src/mock/mock.ts",
+    "start": "ts-node-dev --fast --respawn ./src/mock/mock.ts",
     "lint": "tslint -c tslint.json src/**/*.ts",
     "lint:fix": "tslint -c tslint.json src/**/*.ts --fix",
     "tsoa": "npm run tsoa:swagger && npm run tsoa:routes",
@@ -36,6 +36,7 @@
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
     "mocha": "^4.0.1",
+    "ts-node-dev": "^1.0.0-pre.5",
     "tsconfig-paths": "^2.4.0",
     "tslint": "^5.8.0",
     "tslint-config-prettier": "^1.6.0",
