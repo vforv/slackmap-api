@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import './config/slackmap';
 import {Container} from 'inversify';
 
 export function iocFactory(): Container {

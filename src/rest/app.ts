@@ -6,7 +6,8 @@ import * as path from 'path';
 import { expressAuthentication } from './auth';
 import { RegisterRoutes } from './routes';
 
-import './controllers/config.controller';
+import './controllers';
+import { errorHandler } from './error-handler';
 
 @injectable()
 export class App {
@@ -31,6 +32,7 @@ export class App {
         app.use(bodyParser.json());
         app.use(methodOverride());
 
+
         // router
         RegisterRoutes({
             app,
@@ -38,6 +40,8 @@ export class App {
             authentication: expressAuthentication
         });
 
+
+        app.use(errorHandler());
         return app;
     }
 }

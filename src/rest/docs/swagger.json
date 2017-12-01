@@ -1,5 +1,5 @@
 {
-	"basePath": "/api",
+	"basePath": "/api/v2",
 	"consumes": [
 		"application/json"
 	],
@@ -26,6 +26,80 @@
 				"domain"
 			],
 			"type": "object"
+		},
+		"LocationPathModel": {
+			"properties": {},
+			"type": "object"
+		},
+		"MeModel": {
+			"description": "User model definition",
+			"properties": {
+				"rid": {
+					"type": "string"
+				},
+				"name": {
+					"type": "string"
+				},
+				"facebook_id": {
+					"type": "string"
+				},
+				"email": {
+					"type": "string"
+				},
+				"imperial": {
+					"type": "boolean"
+				},
+				"location_path": {
+					"$ref": "#/definitions/LocationPathModel"
+				},
+				"firstname": {
+					"type": "string"
+				},
+				"lastname": {
+					"type": "string"
+				},
+				"login_at": {
+					"type": "string"
+				}
+			},
+			"type": "object"
+		},
+		"MeGetResponse": {
+			"properties": {
+				"me": {
+					"$ref": "#/definitions/MeModel"
+				}
+			},
+			"required": [
+				"me"
+			],
+			"type": "object"
+		},
+		"AuthLoginByFbResponse": {
+			"properties": {
+				"me": {
+					"$ref": "#/definitions/MeModel"
+				}
+			},
+			"required": [
+				"me"
+			],
+			"type": "object"
+		},
+		"AuthLoginByFbRequest": {
+			"properties": {
+				"accessToken": {
+					"type": "string"
+				},
+				"signedRequest": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"accessToken",
+				"signedRequest"
+			],
+			"type": "object"
 		}
 	},
 	"info": {
@@ -37,7 +111,7 @@
 		}
 	},
 	"paths": {
-		"/v2/config": {
+		"/config": {
 			"get": {
 				"operationId": "Get",
 				"produces": [
@@ -53,10 +127,63 @@
 				},
 				"description": "current application configuration object",
 				"tags": [
-					"v2"
+					"slackmap"
 				],
 				"security": [],
 				"parameters": []
+			}
+		},
+		"/auth/me": {
+			"get": {
+				"operationId": "MeGet",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/MeGetResponse"
+						}
+					}
+				},
+				"description": "current application configuration object",
+				"tags": [
+					"slackmap"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/auth/loginByFb": {
+			"post": {
+				"operationId": "LoginByFb",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/AuthLoginByFbResponse"
+						}
+					}
+				},
+				"description": "current application configuration object",
+				"tags": [
+					"slackmap"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "data",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/AuthLoginByFbRequest"
+						}
+					}
+				]
 			}
 		}
 	},

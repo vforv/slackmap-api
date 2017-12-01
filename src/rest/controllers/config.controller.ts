@@ -1,15 +1,16 @@
 import { injectable, inject } from 'inversify';
 import { Get, Route, Tags } from 'tsoa';
 import { ConfigModel } from '../../models/config.model';
-import { interactors, ConfigGetInteractor } from '../../interactors/index';
+import * as interactors from '../../interactors/index';
+import * as types from '../../interactors/types';
 
-@Tags('v2')
-@Route('v2/config')
+@Tags('slackmap')
+@Route('config')
 @injectable()
 export class ConfigController {
 
   constructor(
-    @inject(interactors.ConfigGet) private configGetInteractor: ConfigGetInteractor
+    @inject(types.ConfigGet) private configGetInteractor: interactors.ConfigGetInteractor
   ) {}
 
   /**

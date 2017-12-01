@@ -1,12 +1,21 @@
 import {iocFactory} from '../ioc';
 import {ContainerModule, Container} from 'inversify';
-import {interactors} from '../interactors/index';
-import {ConfigGetInteractorMock} from './interactors/config-get.interactor.mock';
+import * as types from '../interactors/types';
+import {ConfigGetInteractorMock} from './interactors/config-get.mock';
 import {appIoc} from '../rest/app-ioc';
+import {AuthLoginByFbMock} from './interactors/auth/auth-login-by-fb.mock';
 
 export const mockIoc = new ContainerModule(bind => {
-  bind(interactors.ConfigGet)
+  bind(types.ConfigGet)
     .to(ConfigGetInteractorMock)
+    .inRequestScope();
+
+  bind(types.MeGet)
+    .to(AuthLoginByFbMock)
+    .inRequestScope();
+
+  bind(types.AuthLoginByFb)
+    .to(AuthLoginByFbMock)
     .inRequestScope();
 });
 

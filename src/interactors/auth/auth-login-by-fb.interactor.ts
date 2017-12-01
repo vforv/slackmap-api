@@ -1,11 +1,14 @@
-import { ConfigModel } from '../../models/config.model';
+import {MeModel} from '../../models/me.model';
 
 export interface AuthLoginByFbInteractor {
   process(request: AuthLoginByFbRequest): Promise<AuthLoginByFbResponse>;
 }
+
 export interface AuthLoginByFbRequest {
-  config: ConfigModel;
+  accessToken: string;
+  signedRequest: string;
 }
+
 export interface AuthLoginByFbResponse {
-  config: ConfigModel;
+  me: MeModel;
 }

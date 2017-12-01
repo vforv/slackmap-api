@@ -3,6 +3,7 @@ import * as express from 'express';
 import { Controller, ValidateParam, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
 import { interfaces } from 'inversify';
 import { ConfigController } from './controllers/config.controller';
+import { AuthController } from './controllers/auth.controller';
 
 export type Authentication = (request: any, name: any, scopes: any) => Promise<any>;
 
@@ -18,6 +19,37 @@ const models: TsoaRoute.Models = {
             "domain": { "dataType": "string", "required": true },
             "facebook_app_id": { "dataType": "string" },
             "facebook_scope": { "dataType": "array", "array": { "dataType": "string" }, "validators": { "uniqueItems": {} } },
+        },
+    },
+    "LocationPathModel": {
+    },
+    "MeModel": {
+        "properties": {
+            "rid": { "dataType": "string" },
+            "name": { "dataType": "string" },
+            "facebook_id": { "dataType": "string" },
+            "email": { "dataType": "string" },
+            "imperial": { "dataType": "boolean" },
+            "location_path": { "ref": "LocationPathModel" },
+            "firstname": { "dataType": "string" },
+            "lastname": { "dataType": "string" },
+            "login_at": { "dataType": "string" },
+        },
+    },
+    "MeGetResponse": {
+        "properties": {
+            "me": { "ref": "MeModel", "required": true },
+        },
+    },
+    "AuthLoginByFbResponse": {
+        "properties": {
+            "me": { "ref": "MeModel", "required": true },
+        },
+    },
+    "AuthLoginByFbRequest": {
+        "properties": {
+            "accessToken": { "dataType": "string", "required": true },
+            "signedRequest": { "dataType": "string", "required": true },
         },
     },
 };
@@ -39,6 +71,43 @@ export function RegisterRoutes(options: Options) {
 
 
             const promise = controller.get.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    options.app.get('/api/v2/auth/me',
+        function(request: any, response: any, next: any) {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = options.iocContainer.get<AuthController>(AuthController);
+
+
+            const promise = controller.meGet.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, next);
+        });
+    options.app.post('/api/v2/auth/loginByFb',
+        function(request: any, response: any, next: any) {
+            const args = {
+                data: { "in": "body", "name": "data", "required": true, "ref": "AuthLoginByFbRequest" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, request);
+            } catch (err) {
+                return next(err);
+            }
+
+            const controller = options.iocContainer.get<AuthController>(AuthController);
+
+
+            const promise = controller.loginByFb.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, next);
         });
 

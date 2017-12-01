@@ -1,7 +1,7 @@
 import {expect} from '../testing';
 import {Config} from './config';
 
-describe('config.ts', () => {
+describe('Config', () => {
   const keys = ['env', 'domain'];
 
   it('should load default config', () => {
