@@ -1,10 +1,7 @@
-import {ioc} from '../ioc';
+import {mockIocFactory} from './mock-ioc';
 import {App} from '../rest/app';
-import {configure as appIocConfigure} from '../rest/app-ioc';
-import {configure as mockIocConfigure} from './mock-ioc';
 
-appIocConfigure(ioc);
-mockIocConfigure(ioc);
+const ioc = mockIocFactory();
 
 const app: App = ioc.get(App);
 

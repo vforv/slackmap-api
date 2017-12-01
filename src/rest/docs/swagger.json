@@ -1,5 +1,5 @@
 {
-	"basePath": "/api/v2",
+	"basePath": "/api",
 	"consumes": [
 		"application/json"
 	],
@@ -37,7 +37,7 @@
 		}
 	},
 	"paths": {
-		"/config": {
+		"/v2/config": {
 			"get": {
 				"operationId": "Get",
 				"produces": [
@@ -53,7 +53,7 @@
 				},
 				"description": "current application configuration object",
 				"tags": [
-					"slackmap"
+					"v2"
 				],
 				"security": [],
 				"parameters": []

@@ -1,10 +1,10 @@
 import {App} from './app';
-import {Container} from 'inversify';
+import {ContainerModule} from 'inversify';
 import {ConfigController} from './controllers';
 
-export function configure(ioc: Container) {
+export const appIoc = new ContainerModule(bind => {
   // app
-  ioc.bind(App).toSelf();
+  bind(App).toSelf();
   // controllers
-  ioc.bind(ConfigController).toSelf();
-}
+  bind(ConfigController).toSelf();
+});

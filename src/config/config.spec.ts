@@ -1,5 +1,5 @@
-import { expect } from '../testing';
-import { Config } from './config';
+import {expect} from '../testing';
+import {Config} from './config';
 
 describe('config.ts', () => {
   const keys = ['env', 'domain'];

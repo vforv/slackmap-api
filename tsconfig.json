@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "baseUrl": "src",
         "outDir": "./dist",
         "rootDir": "./src",
         "sourceMap": true,
@@ -11,10 +10,7 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "allowJs": false,
-        "noUnusedLocals": true,
-        "rootDirs": [
-            "./src"
-        ]
+        "noUnusedLocals": true
     },
     "exclude": [
         "node_modules",

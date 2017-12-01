@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import {Container} from 'inversify';
 
-const ioc = new Container();
-
-ioc.bind(Container).toConstantValue(ioc);
-
-export {ioc};
+export function iocFactory(): Container {
+  const ioc = new Container();
+  ioc.bind(Container).toConstantValue(ioc);
+  return ioc;
+}

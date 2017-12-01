@@ -3,8 +3,8 @@ import { Get, Route, Tags } from 'tsoa';
 import { ConfigModel } from '../../models/config.model';
 import { interactors, ConfigGetInteractor } from '../../interactors/index';
 
-@Tags('slackmap')
-@Route('config')
+@Tags('v2')
+@Route('v2/config')
 @injectable()
 export class ConfigController {
 

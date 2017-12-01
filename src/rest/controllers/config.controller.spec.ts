@@ -1,17 +1,16 @@
-import {chai, expect} from '../../testing';
+import {chai, expect, mockIocFactory} from './ctrl-testing';
 import {App} from '../app';
+
+const ioc = mockIocFactory();
 
 describe('ConfigController', () => {
   let agent: any;
   before(() => {
-    const app: App = new App();
-
-    console.log('open');
+    const app: App = ioc.get(App);
     agent = chai.request.agent(app.create());
   });
 
   after(() => {
-    console.log('close');
     agent.app.close();
   });
 

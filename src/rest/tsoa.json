@@ -3,7 +3,7 @@
         "outputDirectory": "./src/rest/docs",
         "entryFile": "./src/rest/app.ts",
         "host": "localhost:3000",
-        "basePath": "/api/v2",
+        "basePath": "/api",
         "securityDefinitions": {
           "api_token": {
               "type": "apiKey",
@@ -14,7 +14,7 @@
       }
     },
     "routes": {
-      "basePath": "/api/v2",
+      "basePath": "/api",
       "entryFile": "./src/rest/app.ts",
       "routesDir": "./src/rest",
       "middleware": "express",

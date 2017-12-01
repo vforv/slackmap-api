@@ -6,11 +6,11 @@
     "start": "ts-node -r tsconfig-paths/register ./src/mock/mock.ts",
     "lint": "tslint -c tslint.json src/**/*.ts",
     "lint:fix": "tslint -c tslint.json src/**/*.ts --fix",
-    "tsoa": "tsoa swagger && tsoa routes",
-    "tsoa:swagger": "tsoa swagger",
-    "tsoa:routes": "tsoa routes",
-    "test": "mocha -r ts-node/register -r tsconfig-paths/register ./src/**/*.spec.ts",
-    "test:one": "mocha -r ts-node/register -r tsconfig-paths/register --watch --"
+    "tsoa": "npm run tsoa:swagger && npm run tsoa:routes",
+    "tsoa:swagger": "tsoa --configuration ./src/rest/tsoa.json swagger",
+    "tsoa:routes": "tsoa --configuration ./src/rest/tsoa.json routes",
+    "test": "mocha -r ts-node/register './src/**/*.spec.ts'",
+    "test:one": "mocha -r ts-node/register --watch --"
   },
   "dependencies": {
     "body-parser": "^1.18.2",

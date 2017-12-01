@@ -1,10 +1,19 @@
-import {Container} from 'inversify';
+import {ContainerModule, Container} from 'inversify';
 import {interactors} from '../interactors/index';
 import {ConfigGetInteractorMock} from './interactors/config-get.interactor.mock';
+import {iocFactory} from '../ioc';
+import {appIoc} from '../rest/app-ioc';
 
-export function configure(ioc: Container) {
-  ioc
-    .bind(interactors.ConfigGet)
+export const mockIoc = new ContainerModule(bind => {
+  bind(interactors.ConfigGet)
     .to(ConfigGetInteractorMock)
     .inRequestScope();
+});
+
+export function mockIocFactory(): Container {
+  const ioc = iocFactory();
+
+  ioc.load(appIoc, mockIoc);
+
+  return ioc;
 }
