@@ -1,6 +1,8 @@
 import {MeModel} from '../../models/me.model';
 
-export interface MeGetInteractor {
+export const ME_GET = Symbol('MeGet Interactor');
+
+export interface MeGet {
   process(): Promise<MeGetResponse>;
 }
 

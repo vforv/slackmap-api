@@ -2,7 +2,6 @@ import { injectable, inject } from 'inversify';
 import { Get, Route, Tags } from 'tsoa';
 import { ConfigModel } from '../../models/config.model';
 import * as interactors from '../../interactors/index';
-import * as types from '../../interactors/types';
 
 @Tags('slackmap')
 @Route('config')
@@ -10,7 +9,7 @@ import * as types from '../../interactors/types';
 export class ConfigController {
 
   constructor(
-    @inject(types.ConfigGet) private configGetInteractor: interactors.ConfigGetInteractor
+    @inject(interactors.CONFIG_GET) private configGet: interactors.ConfigGet
   ) {}
 
   /**
@@ -20,7 +19,7 @@ export class ConfigController {
    */
   @Get()
   public get(): ConfigModel {
-    return this.configGetInteractor.process();
+    return this.configGet.process();
   }
 
 }

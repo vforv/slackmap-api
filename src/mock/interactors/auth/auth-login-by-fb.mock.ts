@@ -2,7 +2,7 @@ import * as interactors from '../../../interactors';
 import { injectable } from 'inversify';
 
 @injectable()
-export class AuthLoginByFbMock implements interactors.AuthLoginByFbInteractor {
+export class AuthLoginByFbMock implements interactors.AuthLoginByFb {
   async process(request: interactors.AuthLoginByFbRequest): Promise<interactors.AuthLoginByFbResponse> {
     return Promise.resolve({
       me: {

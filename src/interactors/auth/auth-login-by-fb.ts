@@ -1,6 +1,8 @@
 import {MeModel} from '../../models/me.model';
 
-export interface AuthLoginByFbInteractor {
+export const AUTH_LOGIN_BY_FB = Symbol('AuthLoginByFacebook Interactor');
+
+export interface AuthLoginByFb {
   process(request: AuthLoginByFbRequest): Promise<AuthLoginByFbResponse>;
 }
 

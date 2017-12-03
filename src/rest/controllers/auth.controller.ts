@@ -1,7 +1,14 @@
 import { injectable, inject, Container } from 'inversify';
 import { Get, Post, Route, Tags, Body } from 'tsoa';
-import {MeGetResponse, MeGetInteractor, AuthLoginByFbRequest, AuthLoginByFbResponse, AuthLoginByFbInteractor} from '../../interactors';
-import * as types from '../../interactors/types';
+import {
+  MeGetResponse,
+  ME_GET,
+  MeGet,
+  AuthLoginByFbRequest,
+  AuthLoginByFbResponse,
+  AuthLoginByFb,
+  AUTH_LOGIN_BY_FB
+} from '../../interactors';
 
 @Tags('slackmap')
 @Route('auth')
@@ -19,7 +26,7 @@ export class AuthController {
    */
   @Get('me')
   public meGet(): Promise<MeGetResponse> {
-    const getMe: MeGetInteractor = this.ioc.get(types.MeGet);
+    const getMe: MeGet = this.ioc.get(ME_GET);
     return getMe.process();
   }
 
@@ -30,7 +37,7 @@ export class AuthController {
    */
   @Post('loginByFb')
   public loginByFb(@Body() data: AuthLoginByFbRequest): Promise<AuthLoginByFbResponse> {
-    const loginByFb: AuthLoginByFbInteractor = this.ioc.get(types.AuthLoginByFb);
+    const loginByFb: AuthLoginByFb = this.ioc.get(AUTH_LOGIN_BY_FB);
     return loginByFb.process(data);
   }
 
