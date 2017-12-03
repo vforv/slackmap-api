@@ -5,4 +5,4 @@ const ioc = mockIocFactory();
 
 const app: App = ioc.get(App);
 
-app.create().listen(3000);
+app.create().listen(process.env.PORT || 3000);

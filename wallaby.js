@@ -1,11 +1,21 @@
 module.exports = function(wallaby) {
   return {
-    files: ['src/**/*.ts', {pattern: 'src/**/*.spec.ts', ignore: true}, {pattern: 'src/rest/routes-template.ts', ignore: true}],
+    files: [
+      'src/**/*.ts',
+      {
+        pattern: 'src/**/*.spec.ts',
+        ignore: true
+      },
+      {pattern: 'src/rest/routes-template.ts', ignore: true}
+    ],
 
     tests: ['src/**/*.spec.ts'],
 
     env: {
-      type: 'node'
+      type: 'node',
+      params: {
+        env: 'NODE_ENV=testrun'
+      }
     },
 
     // or any other supported testing framework:

@@ -1,84 +1,111 @@
 import { merge } from 'lodash';
-import { injectable } from 'inversify';
+import { injectable, inject } from 'inversify';
 import './slackmap';
 import * as path from 'path';
+
+export enum EnvConfig {
+    PROD = 'prod',
+    DEV = 'dev',
+    TEST = 'test',
+    TESTRUN = 'testrun'
+}
+export interface FacebookConfig {
+    app_id: string;
+    secret: string;
+    scope: Array<string>;
+}
+export interface StorageConfig {
+    base_dir: string;         // main storage dir path ../storage
+    tmp_dir: string;          // tmp dir: ../storage/tmp
+    test_dir: string;         // test dir: ./test
+    base_url: string;         // /assets/uploads => storage/public/uploads
+}
+export interface PhotosConfig {
+    base_url: string;             // /assets/uploads/p0
+    private_storage_dir: string;  // private/media/p0    relative to storage_dir
+    public_storage_dir: string;   // public/uploads/p0   relative to storage_dir
+    sizes: PhotoSizes;
+}
+export interface PhotoSizes {
+    xs_s: {
+        width: number,      // 50
+        height: number,     // 50
+    };
+    s_s: {
+        width: number,      // 200
+        height: number,     // 200
+    };
+    l: {
+        width: number,      // 1300
+        height: number,     // 960
+    };
+}
+export interface SessionConfig {
+    key: string;                 // session cookie name default koa.sid
+    cookies: {                   // used by koa-session as cookie configuration object
+        signed: true,            // should the koa sign the cookie with the key
+        maxage: number           // 100 days
+    };
+}
+export interface AppConfig {
+    env: EnvConfig;
+    domain: string;             // on what domain this app works: https://slackmap.com
+    session: SessionConfig;
+    facebook: FacebookConfig;
+    storage: StorageConfig;
+    photos: PhotosConfig;
+}
 
 /**
  * SlackMap api server configuration
  */
 @injectable()
-export class Config {
-    env: string;
+export class Config implements AppConfig {
+    env: EnvConfig;
     domain: string;             // on what domain this app works: https://slackmap.com
-    port: number;               // on what por the app should lestend
-    api_version: string;
-    server_version: string;
-    ui_version: string;
-    keys: Array<string>;        // used by koa-session for signing the cookies
-    facebook: {                 // configuration of your app used for auth
-        app_id: string
-        secret: string
-        scope: Array<string>
-    };
-    session: {
-        key: string                  // session cookie name default koa.sid
-        cookies: {                   // used by koa-session as cookie configuration object
-            signed: true,            // should the koa sign the cookie with the key
-            maxage: number           // 100 days
-        }
-    };
-    storage_dir: string;             // main storage dir: ../storage
-    tmp_dir: string;                 // tmp dir: ../storage/tmp
-    test_dir: string;                // test dir: ./test
-    media: {
-        base_path: string,          // /assets/uploads
-        photos_base_path: string    // /assets/uploads/p0
-        photos_storage_dir: string  // private/media/p0    relative to storage_dir
-        photos_base_dir: string     // public/uploads/p0   relative to storage_dir
-        sizes: {
-            xs_s: {
-                width: number,      // 50
-                height: number,     // 50
-            },
-            s_s: {
-                width: number,      // 200
-                height: number,     // 200
-            },
-            l: {
-                width: number,      // 1300
-                height: number,     // 960
-            }
-        }
-    };
-    constructor() {
-        const config = require('./env/default');
+    session: SessionConfig;
+    facebook: FacebookConfig;
+    storage: StorageConfig;
+    photos: PhotosConfig;
 
-        let local = {};
+    constructor(@inject('NODE_ENV') NODE_ENV: any) {
+
+        if (!NODE_ENV) {
+            throw new Error('NODE_ENV has to be set');
+        }
+        NODE_ENV = ('' + NODE_ENV).toUpperCase();
+        if (!EnvConfig[NODE_ENV]) {
+            throw new Error(`env "${NODE_ENV}" is not known env`);
+        }
+
+        const defaultConfig = require('./env/default');
+
+        let localConfig = {};
         try {
-            local = require('./env/local');
+            localConfig = require('./env/local');
         } catch (err) {
 
         }
-        let env = {};
+
+        let envConfig = {};
         try {
-            if (process.env.NODE_ENV) {
-                // throw new Error('process.env.NODE_ENV has to be set');
-                env = require('./env/' + process.env.NODE_ENV);
-            }
+            envConfig = require('./env/' + NODE_ENV.toLowerCase());
         } catch (err) {
-            throw new Error(`config file for "${process.env.NODE_ENV}" env does not exist`);
+            throw new Error(`config file for "${NODE_ENV}" env does not exist`);
         }
 
-        Object.assign(this, merge({}, config, env, local));
-        this.env = process.env.NODE_ENV;
+        Object.assign(this, merge({}, defaultConfig, envConfig, localConfig));
+        this.env = <EnvConfig>EnvConfig[NODE_ENV];
+
         if (!this.domain) {
             throw new Error('configuration env missing');
         }
     }
+
     testDir(...files: string[]) {
-        return path.join(this.test_dir, ...arguments);
+        return path.join(this.storage.base_dir, this.storage.test_dir, ...files);
     }
     tmpDir(...files: string[]) {
-        return path.join(this.storage_dir, this.tmp_dir, ...arguments);
+        return path.join(this.storage.base_dir, this.storage.test_dir, ...files);
     }
 }

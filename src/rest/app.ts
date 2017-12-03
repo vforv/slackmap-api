@@ -5,9 +5,9 @@ import * as methodOverride from 'method-override';
 import * as path from 'path';
 import { expressAuthentication } from './auth';
 import { RegisterRoutes } from './routes';
-
 import './controllers';
 import { errorHandler } from './error-handler';
+import { Config } from '../config/config';
 
 @injectable()
 export class App {
@@ -18,14 +18,11 @@ export class App {
 
     create(): express.Express {
 
+        // config
+        const config: Config = this.ioc.get(Config);
+
         // app instance
         const app: express.Express = this.app = express();
-
-
-        app.use('/api/v2/docs', express.static(path.resolve(__dirname, 'docs')));
-        app.use('/swagger.json', (req, res) => {
-            res.sendFile(path.resolve(__dirname, 'docs/swagger.json'));
-        });
 
         // body parser
         app.use(bodyParser.urlencoded({ extended: true }));
@@ -40,8 +37,20 @@ export class App {
             authentication: expressAuthentication
         });
 
+        // swagger docs
 
+        app.use('/api/v2/docs', express.static(path.resolve(__dirname, 'docs')));
+        app.use('/api/v2/swagger.json', (req, res) => {
+            const contract = require(path.resolve(__dirname, 'docs/swagger.json'));
+            contract.host = config.domain;
+            res.json(contract);
+        });
+        app.use('/api', (req, res) => res.redirect('/api/v2/docs'));
+        app.use('/api/v2', (req, res) => res.redirect('/api/v2/docs'));
+
+        // error handler
         app.use(errorHandler());
+
         return app;
     }
 }

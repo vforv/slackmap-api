@@ -3,14 +3,15 @@
   "version": "0.0.1",
   "description": "SlackMap API Server",
   "scripts": {
-    "start": "ts-node-dev --fast --respawn ./src/mock/mock.ts",
+    "start": "NODE_ENV=dev ts-node-dev --fast --respawn ./src/mock/mock.ts",
+    "build": "tsc",
     "lint": "tslint -c tslint.json src/**/*.ts",
     "lint:fix": "tslint -c tslint.json src/**/*.ts --fix",
     "tsoa": "npm run tsoa:swagger && npm run tsoa:routes",
     "tsoa:swagger": "tsoa swagger",
     "tsoa:routes": "tsoa routes",
-    "test": "mocha -r ts-node/register './src/**/*.spec.ts'",
-    "test:one": "mocha -r ts-node/register --watch --"
+    "test": "NODE_ENV=testrun mocha -r ts-node/register './src/**/*.spec.ts'",
+    "test:one": "NODE_ENV=testrun mocha -r ts-node/register --watch --"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
