@@ -1,3 +1,4 @@
+const path = require('path');
 module.exports = function(wallaby) {
   return {
     files: [
@@ -14,7 +15,7 @@ module.exports = function(wallaby) {
     env: {
       type: 'node',
       params: {
-        env: 'NODE_ENV=testrun'
+        env: `NODE_ENV=testrun;STORAGE_BASE_DIR=${path.resolve('./src/storage')}`
       }
     },
 

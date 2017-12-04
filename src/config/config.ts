@@ -68,8 +68,7 @@ export class Config implements AppConfig {
     storage: StorageConfig;
     photos: PhotosConfig;
 
-    constructor(@inject('NODE_ENV') NODE_ENV: any) {
-
+    constructor(@inject('NODE_ENV') NODE_ENV: any, @inject('STORAGE_BASE_DIR') STORAGE_BASE_DIR: string) {
         if (!NODE_ENV) {
             throw new Error('NODE_ENV has to be set');
         }
@@ -79,7 +78,6 @@ export class Config implements AppConfig {
         }
 
         const defaultConfig = require('./env/default');
-
         let localConfig = {};
         try {
             localConfig = require('./env/local');
@@ -95,7 +93,12 @@ export class Config implements AppConfig {
         }
 
         Object.assign(this, merge({}, defaultConfig, envConfig, localConfig));
+
         this.env = <EnvConfig>EnvConfig[NODE_ENV];
+        // set storage base dir
+        if (STORAGE_BASE_DIR) {
+            this.storage.base_dir = STORAGE_BASE_DIR;
+        }
 
         if (!this.domain) {
             throw new Error('configuration env missing');
@@ -108,4 +111,8 @@ export class Config implements AppConfig {
     tmpDir(...files: string[]) {
         return path.join(this.storage.base_dir, this.storage.test_dir, ...files);
     }
+    getMockDbFile() {
+        return path.join(this.storage.base_dir, 'db.json');
+    }
+
 }

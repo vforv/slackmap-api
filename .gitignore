@@ -5,6 +5,8 @@ npm-debug.log*
 .history
 node_modules
 dist
+src/storage/*
+!src/storage/.gitkeep
 .~*
 local.js
 local.ts

@@ -19,5 +19,9 @@ declare global {
             app: http.Server;
         }
     }
+    namespace Lowdb {
+        export interface Lowdb {
+            unset: (key: any) => Lowdb;
+        }
+    }
 }
-

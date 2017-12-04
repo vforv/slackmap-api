@@ -1,5 +1,6 @@
 import {EnvConfig, AppConfig} from '../config';
 import {FacebookConfig, SessionConfig, StorageConfig, PhotosConfig} from '../index';
+import {resolve} from 'path';
 
 const facebook: FacebookConfig = {
   app_id: '', // slackmap.loc
@@ -14,7 +15,7 @@ const session: SessionConfig = {
   }
 };
 const storage: StorageConfig = {
-  base_dir: '../../storage', // main storage dir
+  base_dir: resolve('../../storage'), // main storage dir
   tmp_dir: 'tmp', // relative to storage dir
   test_dir: 'test', // test dir
   base_url: '/assets/uploads' // test dir
@@ -47,4 +48,5 @@ const config: AppConfig = {
   storage: storage,
   photos: photos
 };
-export default config;
+
+module.exports = config;
