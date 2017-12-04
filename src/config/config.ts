@@ -55,7 +55,8 @@ export interface AppConfig {
     storage: StorageConfig;
     photos: PhotosConfig;
 }
-
+export const NODE_ENV = Symbol('NODE_ENV');
+export const STORAGE_BASE_DIR = Symbol('STORAGE_BASE_DIR');
 /**
  * SlackMap api server configuration
  */
@@ -68,7 +69,7 @@ export class Config implements AppConfig {
     storage: StorageConfig;
     photos: PhotosConfig;
 
-    constructor(@inject('NODE_ENV') NODE_ENV: any, @inject('STORAGE_BASE_DIR') STORAGE_BASE_DIR: string) {
+    constructor(@inject(NODE_ENV) NODE_ENV: any, @inject(STORAGE_BASE_DIR) STORAGE_BASE_DIR: string) {
         if (!NODE_ENV) {
             throw new Error('NODE_ENV has to be set');
         }

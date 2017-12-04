@@ -1,5 +1,5 @@
 import { injectable, inject, Container } from 'inversify';
-import { Get, Post, Route, Tags, Body } from 'tsoa';
+import { Get, Post, Route, Tags, Body, Example } from 'tsoa';
 import {
   MeGetResponse,
   ME_GET,
@@ -35,6 +35,10 @@ export class AuthController {
    *
    * @returns {Promise<ConfigModel>}
    */
+  @Example({
+    'accessToken': 'fb-mock-token',
+    'signedRequest': 'string'
+  })
   @Post('loginByFb')
   public loginByFb(@Body() data: AuthLoginByFbRequest): Promise<AuthLoginByFbResponse> {
     const loginByFb: AuthLoginByFb = this.ioc.get(AUTH_LOGIN_BY_FB);

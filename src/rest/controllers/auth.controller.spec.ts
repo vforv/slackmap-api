@@ -16,7 +16,7 @@ describe('AuthController', () => {
   });
 
   describe(`GET /api/v2/auth/me`, () => {
-    it('should return app config', async () => {
+    it('should return current user session', async () => {
       return agent.get('/api/v2/auth/me').then(
         (res: any) => {
           expect(res).to.have.status(200);
@@ -24,6 +24,7 @@ describe('AuthController', () => {
           expect(res.body).to.have.all.keys(['me']);
         },
         (res: any) => {
+          console.log(res.response.body.stack);
           expect(res).to.not.exist;
         }
       );
@@ -33,7 +34,7 @@ describe('AuthController', () => {
   describe(`POST /api/v2/auth/loginByFb`, () => {
     it('should have validation error', async () => {
       const req: AuthLoginByFbRequest = {
-        accessToken: 'test-token',
+        accessToken: 'fb-mock-token',
         signedRequest: 'test-sign'
       };
 
@@ -47,7 +48,6 @@ describe('AuthController', () => {
             expect(res.body).to.have.all.keys(['me']);
           },
           (res: any) => {
-            console.log(res.response.body);
             expect(res).to.have.status(200);
             expect(res).to.not.exist;
           }

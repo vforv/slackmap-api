@@ -11,8 +11,8 @@ export class MeModel {
     email?: string;
     imperial?: boolean;
     location_path?: LocationPathModel;
-    firstname?: string;
-    lastname?: string;
+    first_name?: string;
+    last_name?: string;
     login_at?: string;
 
 }

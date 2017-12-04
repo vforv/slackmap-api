@@ -3,7 +3,7 @@ import {ConfigModel} from '../../models/config.model';
 
 @injectable()
 export class ConfigGetInteractorMock {
-  process(): ConfigModel {
+  async process(): Promise<ConfigModel> {
     return <ConfigModel>{
       domain: 'jest',
       facebook_app_id: 'go',

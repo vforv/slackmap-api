@@ -4,11 +4,12 @@
 export class UserModel {
 
     location?: string;
-    id?: string;
+    rid?: string;
     facebook_id?: string;
     email?: string;
-    firstname?: string;
-    lastname?: string;
+    name?: string;
+    first_name?: string;
+    last_name?: string;
     login_at?: string;
 
 }

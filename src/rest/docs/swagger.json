@@ -52,10 +52,10 @@
 				"location_path": {
 					"$ref": "#/definitions/LocationPathModel"
 				},
-				"firstname": {
+				"first_name": {
 					"type": "string"
 				},
-				"lastname": {
+				"last_name": {
 					"type": "string"
 				},
 				"login_at": {
@@ -166,6 +166,12 @@
 						"description": "Ok",
 						"schema": {
 							"$ref": "#/definitions/AuthLoginByFbResponse"
+						},
+						"examples": {
+							"application/json": {
+								"accessToken": "fb-mock-token",
+								"signedRequest": "string"
+							}
 						}
 					}
 				},

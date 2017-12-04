@@ -15,7 +15,7 @@ const session: SessionConfig = {
   }
 };
 const storage: StorageConfig = {
-  base_dir: resolve('../../storage'), // main storage dir
+  base_dir: resolve(__dirname, '../../storage'), // main storage dir
   tmp_dir: 'tmp', // relative to storage dir
   test_dir: 'test', // test dir
   base_url: '/assets/uploads' // test dir
