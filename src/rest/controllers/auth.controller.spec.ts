@@ -1,12 +1,32 @@
-import {chai, expect, mockIocFactory} from './ctrl-testing';
+import {chai, expect} from '../../testing';
 import {App} from '../app';
-import {AuthLoginByFbRequest} from '../../interactors/index';
+import {AuthLoginByFbRequest, AuthLoginByFb, AUTH_LOGIN_BY_FB, AuthLoginByFbResponse, MeGet, MeGetResponse} from '../../interactors/index';
+import { appIocFactory } from '../app-ioc';
+import { ME_GET } from '../../interactors/me/me-get';
 
-const ioc = mockIocFactory();
+class AuthLoginByFbStub implements AuthLoginByFb {
+  async process(req: AuthLoginByFbRequest): Promise<AuthLoginByFbResponse> {
+    const me = req.accessToken;
+    return <any>{
+      me
+    };
+  }
+}
+class MeGetStub implements MeGet {
+  async process(): Promise<MeGetResponse> {
+    const me = 'you got me';
+    return <any>{
+      me
+    };
+  }
+}
 
 describe('AuthController', () => {
   let agent: ChaiHttp.Agent;
+  const ioc = appIocFactory();
   before(() => {
+    ioc.bind(AUTH_LOGIN_BY_FB).toConstantValue(new AuthLoginByFbStub());
+    ioc.bind(ME_GET).toConstantValue(new MeGetStub());
     const app: App = ioc.get(App);
     agent = chai.request.agent(app.create());
   });
@@ -22,9 +42,9 @@ describe('AuthController', () => {
           expect(res).to.have.status(200);
           expect(res).to.have.property('body');
           expect(res.body).to.have.all.keys(['me']);
+          expect(res.body.me).to.equal('you got me');
         },
         (res: any) => {
-          console.log(res.response.body.stack);
           expect(res).to.not.exist;
         }
       );
@@ -46,6 +66,7 @@ describe('AuthController', () => {
             expect(res).to.have.status(200);
             expect(res).to.have.property('body');
             expect(res.body).to.have.all.keys(['me']);
+            expect(res.body.me).to.equal(req.accessToken);
           },
           (res: any) => {
             expect(res).to.have.status(200);

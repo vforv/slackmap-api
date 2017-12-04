@@ -1,6 +1,7 @@
 import {chai, expect} from '../testing';
 import {errorHandler as handler} from './error-handler';
 import {Express, Request, Response, NextFunction} from 'express';
+import {EnvConfig} from '../config/config';
 
 const error = require('http-errors');
 const express = require('express');
@@ -22,7 +23,7 @@ describe('errorHandler()', function() {
         })
       );
     });
-    app.use(handler());
+    app.use(handler(EnvConfig.PROD));
 
     agent = chai.request.agent(app);
   });

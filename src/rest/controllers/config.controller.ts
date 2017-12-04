@@ -18,7 +18,7 @@ export class ConfigController {
    * @returns {Promise<ConfigModel>}
    */
   @Get()
-  public get(): ConfigModel {
+  public get(): Promise<ConfigModel> {
     return this.configGet.process();
   }
 

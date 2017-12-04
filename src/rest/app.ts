@@ -8,6 +8,7 @@ import { RegisterRoutes } from './routes';
 import './controllers';
 import { errorHandler } from './error-handler';
 import { Config } from '../config/config';
+import { NODE_ENV } from '../config/index';
 
 @injectable()
 export class App {
@@ -38,7 +39,6 @@ export class App {
         });
 
         // swagger docs
-
         app.use('/api/v2/docs', express.static(path.resolve(__dirname, 'docs')));
         app.use('/api/v2/swagger.json', (req, res) => {
             const contract = require(path.resolve(__dirname, 'docs/swagger.json'));
@@ -49,7 +49,7 @@ export class App {
         app.use('/api/v2', (req, res) => res.redirect('/api/v2/docs'));
 
         // error handler
-        app.use(errorHandler());
+        app.use(errorHandler(this.ioc.get(NODE_ENV)));
 
         return app;
     }

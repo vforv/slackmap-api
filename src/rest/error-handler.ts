@@ -1,9 +1,8 @@
 import {Request, Response, NextFunction} from 'express';
+import {EnvConfig} from '../config/index';
 const statuses = require('statuses');
 
-const production = process.env.NODE_ENV === 'prod';
-
-export function errorHandler() {
+export function errorHandler(env: EnvConfig) {
   return function apiErrorHandler(err: any, req: Request, res: Response, next: NextFunction) {
     let status = err.status || err.statusCode || 500;
     if (status < 400) {
@@ -17,7 +16,7 @@ export function errorHandler() {
 
     // show the stacktrace when not in production
     // TODO: make this an option
-    if (!production) {
+    if (env === EnvConfig.DEV || env === EnvConfig.TESTRUN) {
       body.stack = err.stack;
     }
 
