@@ -1,4 +1,4 @@
-import {expect} from '../testing';
+import {expect} from '@slackmap/testing';
 import {Config} from './config';
 import {EnvConfig} from './index';
 

@@ -1,21 +1,53 @@
 {
     "compilerOptions": {
-        "outDir": "./dist",
-        "rootDir": "./src",
+        "baseUrl": "./src",
+        "outDir": "dist",
+        "rootDir": ".",
         "sourceMap": true,
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "module": "commonjs",
         "target": "ES2017",
         "moduleResolution": "node",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "allowJs": false,
-        "noUnusedLocals": true
+        "noUnusedLocals": false,
+        "paths": {
+            "@slackmap/domain": [
+                "./domain/index"
+            ],
+            "@slackmap/data": [
+                "./data/index"
+            ],
+            "@slackmap/data-mock": [
+                "./data-mock/index"
+            ],
+            "@slackmap/data-fixtures": [
+                "./data-fixtures/index"
+            ],
+            "@slackmap/common": [
+                "./common/index"
+            ],
+            "@slackmap/core": [
+                "./core/index"
+            ],
+            "@slackmap/api": [
+                "./api/index"
+            ],
+            "@slackmap/config": [
+                "./config/index"
+            ],
+            "@slackmap/testing": [
+                "./testing/index"
+            ],
+            "@slackmap/e2e": [
+                "../e2e/e2e"
+            ]
+        }
     },
     "exclude": [
         "node_modules",
         "dist",
-        "_old",
-        "src/rest/routes-template.ts"
+        "src/_"
     ]
 }

@@ -9,7 +9,7 @@
   "trailingComma": "none",
   "bracketSpacing": false,
   "jsxBracketSameLine": false,
-  "parser": "babylon",
+  "parser": "typescript",
   "semi": true,
   "useTabs": false,
   "proseWrap": true

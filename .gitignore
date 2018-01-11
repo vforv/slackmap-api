@@ -10,7 +10,7 @@ src/storage/*
 .~*
 local.js
 local.ts
-
+src/_
 # Runtime data
 pids
 *.pid
