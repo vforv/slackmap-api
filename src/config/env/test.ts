@@ -1,6 +1,11 @@
+import {ConfigOptions, Env} from '../configs';
+
 /**
- * development config
+ * test.slackmap.com configuration
  */
-module.exports = {
-  domain: 'https://test.slackmap.com'
+export const test: ConfigOptions = <ConfigOptions>{
+  app: {
+    env: Env.TEST,
+    host: 'https://test.slackmap.com'
+  }
 };

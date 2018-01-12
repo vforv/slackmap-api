@@ -1,17 +1,44 @@
-import {Module, Global} from '@nestjs/common';
-import {NODE_ENV, STORAGE_BASE_DIR, Config} from '@slackmap/config';
+import {Module, Global, DynamicModule} from '@nestjs/common';
+import {NODE_ENV, LOCAL_CONFIG_PATH, Env} from './configs';
+import * as configs from './configs';
+import {configOptionsFactory} from './config-options.factory';
 
-export function configComponentsProviderFactory() {
-  return [
-    {provide: NODE_ENV, useValue: process.env.NODE_ENV},
-    {provide: STORAGE_BASE_DIR, useValue: process.env.STORAGE_BASE_DIR || '../storage'},
-    Config
-  ];
-}
+/**
+ * Just add new config here
+ * If you will keep the naming convention, all the rest will be fine
+ */
+const providers = [configs.FacebookConfig, configs.AppConfig, configs.PhotosConfig, configs.StorageConfig, configs.SessionConfig];
+
+/**
+ * This wil automaticly create options for all configs
+ */
+const optionsProviders = providers.map(ConfigClass => {
+  return {
+    provide: configs[ConfigClass.name + 'Options'],
+    useFactory: (nodeEnv, localConfigPath) => {
+      return configOptionsFactory(configs[ConfigClass.name + 'Options'], nodeEnv, localConfigPath);
+    },
+    inject: [NODE_ENV, LOCAL_CONFIG_PATH]
+  };
+});
+
+/**
+ * this is for testing
+ */
+const envVariables = [
+  {
+    provide: NODE_ENV,
+    useValue: process.env.NODE_ENV || Env.PROD
+  },
+  {
+    provide: LOCAL_CONFIG_PATH,
+    useValue: process.env.LOCAL_CONFIG_PATH || true
+  }
+];
 
 @Global()
 @Module({
-  components: configComponentsProviderFactory(),
-  exports: [Config]
+  components: [...envVariables, ...optionsProviders, ...providers],
+  exports: providers
 })
 export class ConfigModule {}

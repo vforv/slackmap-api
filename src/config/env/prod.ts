@@ -1,6 +1,11 @@
+import {ConfigOptions, Env} from '../configs';
+
 /**
- * development config
+ * production config
  */
-module.exports = {
-  domain: 'https://slackmap.com'
+export const prod: ConfigOptions = <ConfigOptions>{
+  app: {
+    env: Env.PROD,
+    host: 'https://slackmap.com'
+  }
 };

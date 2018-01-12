@@ -1,2 +1,3 @@
-export * from './config';
+export * from './typings';
+export * from './configs';
 export * from './config.module';

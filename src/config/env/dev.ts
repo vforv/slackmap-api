@@ -1,6 +1,11 @@
+import {ConfigOptions, Env} from '../configs';
+
 /**
  * development config
  */
-module.exports = {
-  domain: 'http://localhost:3000'
+export const dev: ConfigOptions = <ConfigOptions>{
+  app: {
+    env: Env.DEV,
+    host: 'http://localhost:3000'
+  }
 };

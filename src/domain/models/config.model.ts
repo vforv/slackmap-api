@@ -12,7 +12,7 @@ export class ConfigModel {
     type: 'string',
     description: 'Domain on witch this app instance is running, exmpl: https://slackmap.com'
   })
-  domain: string;
+  host: string;
 
   /**
    * facebook SlackMap id

@@ -1,4 +1,4 @@
-import {EnvConfig} from '@slackmap/config';
+import {AppConfig} from '@slackmap/config';
 import {ExceptionFilter, Catch, HttpStatus} from '@nestjs/common';
 import {HttpException} from '@nestjs/core';
 import {InternalError, NotFoundError} from '@slackmap/data';
