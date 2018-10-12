@@ -1,8 +1,17 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.10.1
+version: v1.12.0
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
   'npm:debug:20170905':
     - '@nestjs/core > body-parser > debug':
         patched: '2018-01-11T11:14:36.822Z'
+  'npm:hoek:20180212':
+    - nodemon > chokidar > fsevents > node-pre-gyp > hawk > hoek:
+        patched: '2018-10-12T23:10:26.539Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > hawk > boom > hoek:
+        patched: '2018-10-12T23:10:26.539Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > hawk > sntp > hoek:
+        patched: '2018-10-12T23:10:26.539Z'
+    - nodemon > chokidar > fsevents > node-pre-gyp > hawk > cryptiles > boom > hoek:
+        patched: '2018-10-12T23:10:26.539Z'
